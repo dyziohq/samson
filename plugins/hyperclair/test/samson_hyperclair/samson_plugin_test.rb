@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative '../test_helper'
+require 'ar_multi_threaded_transactional_tests'
 
 SingleCov.covered!
 
@@ -22,7 +23,7 @@ describe SamsonHyperclair do
   end
 
   describe '.append_job_with_scan' do
-    share_database_connection_in_all_threads
+    around { |t| ArMultiThreadedTransactionalTests.activate &t }
     with_registries ["docker-registry.example.com"]
 
     def execute!
